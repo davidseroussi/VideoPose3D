@@ -30,7 +30,14 @@ def decode(filename):
             results_bb.append(np.full(4, np.nan, dtype=np.float32)) # 4 bounding box coordinates
             results_kp.append(np.full((17, 4), np.nan, dtype=np.float32)) # 17 COCO keypoints
             continue
+
+
         best_match = np.argmax(bb[i][1][:, 4])
+
+        # use biggest surface (closest, biggest detection)
+        surface = bb[i][1][:, 2] * bb[i][1][:, 3]
+        best_match = np.argmax(surface)
+
         best_bb = bb[i][1][best_match, :4]
         best_kp = kp[i][1][best_match].T.copy()
         results_bb.append(best_bb)
