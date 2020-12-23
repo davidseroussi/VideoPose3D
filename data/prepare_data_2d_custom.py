@@ -35,7 +35,12 @@ def decode(filename):
         best_match = np.argmax(bb[i][1][:, 4])
 
         # use biggest surface (closest, biggest detection)
-        surface = bb[i][1][:, 2] * bb[i][1][:, 3]
+        x_min = bb[i][1][:, 0]
+        y_min = bb[i][1][:, 1]
+        x_max = bb[i][1][:, 2]
+        y_max = bb[i][1][:, 3]
+
+        surface = (x_max - x_min) * (y_max - y_min)
         best_match = np.argmax(surface)
 
         best_bb = bb[i][1][best_match, :4]
